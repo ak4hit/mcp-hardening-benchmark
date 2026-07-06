@@ -1,0 +1,136 @@
+{
+  "target": "http://localhost:15000",
+  "profile": "level1",
+  "timestamp": "2026-07-04T10:00:00Z",
+  "score": 11,
+  "max_score": 17,
+  "percent": 64,
+  "level": "FAIL",
+  "fingerprint": {
+    "framework": "MCPJam",
+    "version": "1.4.2",
+    "cves": [
+      {
+        "id": "CVE-2026-23744",
+        "severity": "CRITICAL",
+        "cvss": 9.8,
+        "description": "Unauthenticated RCE via stdio MCP proxy registration endpoint",
+        "url": "https://github.com/InzegoSec/CVE-2026-23744"
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "1.1",
+      "category": "Authentication",
+      "description": "Auth enforced on /tools/list",
+      "status": "PASS",
+      "detail": "Server returned 401 without credentials on /tools/list.",
+      "remediation": ""
+    },
+    {
+      "id": "1.2",
+      "category": "Authentication",
+      "description": "Auth enforced on /tools/call",
+      "status": "PASS",
+      "detail": "Server returned 401 without credentials on /tools/call.",
+      "remediation": ""
+    },
+    {
+      "id": "1.3",
+      "category": "Authentication",
+      "description": "No default/blank API key accepted",
+      "status": "FAIL",
+      "detail": "Server accepted weak credentials: '' (empty), 'admin'",
+      "remediation": "Remove all default, blank, or common API keys. Require cryptographically random keys."
+    },
+    {
+      "id": "2.1",
+      "category": "Transport Security",
+      "description": "No unauthenticated SSE endpoint",
+      "status": "FAIL",
+      "detail": "/sse returned 200 without credentials — endpoint may be unauthenticated.",
+      "remediation": "Apply authentication to the /sse endpoint. CVE-2025-49596 exploits an unauthenticated /sse endpoint in MCPJam."
+    },
+    {
+      "id": "2.2",
+      "category": "Transport Security",
+      "description": "TLS enforced if non-localhost",
+      "status": "SKIP",
+      "detail": "Target is localhost — TLS requirement does not apply.",
+      "remediation": ""
+    },
+    {
+      "id": "3.1",
+      "category": "Tool Exposure",
+      "description": "No hidden callable tools",
+      "status": "FAIL",
+      "detail": "Hidden tool(s) responded (not 404): ops._admin_dump",
+      "remediation": "Remove all unlisted/hidden tools or gate them behind a separate elevated auth mechanism."
+    },
+    {
+      "id": "3.2",
+      "category": "Tool Exposure",
+      "description": "Dangerous tool names absent",
+      "status": "FAIL",
+      "detail": "Dangerous tool name(s) found: ops._admin_dump",
+      "remediation": "Rename or remove tools with dangerous names (admin, dump, debug, exec, shell, eval). Adopt a strict allow-list naming convention."
+    },
+    {
+      "id": "3.4",
+      "category": "Tool Exposure",
+      "description": "Tool list doesn't leak paths",
+      "status": "PASS",
+      "detail": "No filesystem paths or credential patterns found in tool descriptions.",
+      "remediation": ""
+    },
+    {
+      "id": "4.1",
+      "category": "Process Isolation",
+      "description": "Server not running as root",
+      "status": "FAIL",
+      "detail": "Root execution indicators found in HTTP responses: /health: 'uid=0(root) gid=0(root)'",
+      "remediation": "Run the MCP server as a dedicated non-root service user. Never run production services as uid=0."
+    },
+    {
+      "id": "5.1",
+      "category": "Secret Management",
+      "description": "No secrets in tool descriptions",
+      "status": "PASS",
+      "detail": "No credential patterns detected in tool metadata.",
+      "remediation": ""
+    },
+    {
+      "id": "5.4",
+      "category": "Secret Management",
+      "description": "No .env file accessible",
+      "status": "PASS",
+      "detail": "All probed .env paths returned non-200.",
+      "remediation": ""
+    },
+    {
+      "id": "6.3",
+      "category": "Logging & Monitoring",
+      "description": "/health endpoint does not expose internals",
+      "status": "FAIL",
+      "detail": "/health response contains internal information: 'uid=0(root) gid=0(root)'",
+      "remediation": "Sanitize /health endpoint output. It should return only: status (ok/degraded) and uptime."
+    },
+    {
+      "id": "6.4",
+      "category": "Logging & Monitoring",
+      "description": "Server version not exposed in headers",
+      "status": "PASS",
+      "detail": "No version strings found in Server/X-Powered-By headers.",
+      "remediation": ""
+    },
+    {
+      "id": "7.1",
+      "category": "Network Controls",
+      "description": "Management port not publicly bound",
+      "status": "SKIP",
+      "detail": "Target is localhost — public management port check does not apply.",
+      "remediation": ""
+    }
+  ]
+}
