@@ -1,0 +1,22 @@
+{
+  "cves": [
+    {
+      "id": "CVE-2026-23744",
+      "framework": "MCPJam",
+      "affected_versions": ["<=1.4.2"],
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "description": "Unauthenticated RCE via stdio MCP proxy registration endpoint",
+      "url": "https://github.com/InzegoSec/CVE-2026-23744"
+    },
+    {
+      "id": "CVE-2025-49596",
+      "framework": "MCPJam",
+      "affected_versions": ["<=1.3.0"],
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "description": "Pre-auth RCE via Inspector proxy /sse and /stdio endpoints",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-49596"
+    }
+  ]
+}
