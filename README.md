@@ -147,37 +147,84 @@ mcp-audit --list-checks
 
 ## Sample Output
 
-```
-╔══════════════════════════════════════════════════════╗
-║   MCP Server Hardening Benchmark v1.0                ║
-║   Target : http://localhost:15000                    ║
-║   Profile: Level 1 (Basic)                          ║
-╚══════════════════════════════════════════════════════╝
+```text
++-------------------- MCP Server Hardening Benchmark v1.0 --------------------+
+|  Target : http://127.0.0.1:15000                                            |
+|  Profile: Level 1 (Basic)                                                   |
++-----------------------------------------------------------------------------+
 
 [~] Fingerprinting...
-[~] Framework : MCPJam Inspector
-[~] Version   : v1.4.2
-[!] CVE-2026-23744  CRITICAL (CVSS 9.8) — Unauthenticated RCE via stdio proxy
-    → https://github.com/InzegoSec/CVE-2026-23744
+[~] Framework : Flask
+[~] Version   : v1.0.0
+[+] No CVEs matched for detected framework/version
 
 Running audit...
-──────────────────────────────────────────────────
+--------------------------------------------------
+
 
 Authentication
   [PASS] 1.1  Auth enforced on /tools/list
-  [FAIL] 1.3  Blank API key accepted — server returned 200
+  [PASS] 1.2  Auth enforced on /tools/call
+  [PASS] 1.3  No default/blank API key accepted
+  [FAIL] 1.4  Auth enforced on all discovered endpoints
+         Unprotected endpoints found (200 without auth): /health
+         -> Fix: Apply authentication middleware to all exposed endpoints, 
+including health/debug/admin routes.
+  [WARN] 1.5  Rate limiting on failed auth
+
+Transport Security
+  [PASS] 2.1  No unauthenticated SSE endpoint
+  [SKIP] 2.2  TLS enforced if non-localhost
+  [PASS] 2.3  CORS policy configured
+  [SKIP] 2.4  No debug/inspector port exposed publicly
 
 Tool Exposure
-  [FAIL] 3.1  Hidden tool detected: ops._admin_dump
-  [FAIL] 3.2  Dangerous tool name matched: *dump*
+  [FAIL] 3.1  No hidden callable tools
+         Hidden tool(s) responded (not 404): ops._admin_dump
+         -> Fix: Remove all unlisted/hidden tools or gate them behind a 
+separate elevated auth mechanism.
+  [PASS] 3.2  Dangerous tool names absent
+  [PASS] 3.3  Tool inputs validated
+  [PASS] 3.4  Tool list doesn't leak paths
+  [PASS] 3.5  No tool executes shell commands
 
 Process Isolation
-  [FAIL] 4.1  Server appears to run as root (uid=0 in error response)
+  [FAIL] 4.1  Server not running as root
+         Root execution indicators found in HTTP responses: /health: 'uid=0'
+         -> Fix: Run the MCP server as a dedicated non-root service user. Never
+run production services as uid=0.
+  [SKIP] 4.2  Dedicated service user exists
+  [SKIP] 4.3  NoNewPrivileges set in systemd
+  [SKIP] 4.4  Filesystem access restricted
 
-──────────────────────────────────────────────────
-Score   : 11 / 17   (64%)
-Profile : Level 1 — ❌ FAIL
-──────────────────────────────────────────────────
+Secret Management
+  [PASS] 5.1  No secrets in tool descriptions
+  [PASS] 5.2  No secrets in error responses
+  [PASS] 5.3  API key not in server headers
+  [PASS] 5.4  No .env file accessible
+
+Logging & Monitoring
+  [SKIP] 6.1  Tool calls produce log output
+  [SKIP] 6.2  Auth failures logged
+  [FAIL] 6.3  /health endpoint does not expose internals
+         /health response contains internal information: 'uid=0'
+         -> Fix: Sanitize /health endpoint output. It should return only: 
+status (ok/degraded) and uptime. Remove all internal paths, credentials, and 
+version strings.
+  [FAIL] 6.4  Server version not exposed in headers
+         Version strings found in headers: Server: Werkzeug/3.1.8 Python/3.14.4
+         -> Fix: Configure your web server to suppress version information from
+headers (e.g., server_tokens off in Nginx).
+
+Network Controls
+  [SKIP] 7.1  Management port not publicly bound
+  [SKIP] 7.2  Server listens on expected interface only
+  [SKIP] 7.3  No other MCP-related ports exposed
+
+--------------------------------------------------
+Score   : 8 / 12   (67%)
+Profile : Level 1 - [FAIL] FAIL
+--------------------------------------------------
 ```
 
 ---
