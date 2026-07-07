@@ -35,13 +35,13 @@ _STATUS_LABEL = {
 
 
 def _render_banner(target: str, profile: str) -> None:
-    title = Text("MCP Server Hardening Benchmark v1.0", style="bold white")
+    title = Text("MCP Server Hardening Benchmark", style="bold white")
     content = (
         f"[dim cyan]Target :[/dim cyan] {target}\n"
         f"[dim cyan]Profile:[/dim cyan] {'Level 1 (Basic)' if profile == 'level1' else 'Level 2 (Hardened)'}"
     )
     console.print(
-        Panel(content, title="[bold white]MCP Server Hardening Benchmark v1.0[/bold white]",
+        Panel(content, title="[bold white]MCP Server Hardening Benchmark[/bold white]",
               border_style="bright_blue", padding=(0, 2)),
         "",
     )

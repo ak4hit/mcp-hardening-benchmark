@@ -175,6 +175,17 @@ def cli(
         )
         sys.exit(1)
 
+    # Warn if API key is passed as a command-line flag on a TTY
+    ctx = click.get_current_context()
+    if api_key and sys.stdin.isatty() and ctx.get_parameter_source("api_key") == click.core.ParameterSource.COMMANDLINE:
+        click.echo(
+            click.style(
+                "\n[!] Warning: API key passed as flag — visible in shell history and ps aux.\n"
+                "    Prefer running 'mcp-audit' interactively to keep credentials secure.\n",
+                fg="yellow"
+            )
+        )
+
     # ── Interactive prompts (only for missing values) ─────────────────────────
     if is_interactive:
         target = _prompt_target(target)

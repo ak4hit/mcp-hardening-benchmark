@@ -22,6 +22,8 @@ Every check in this tool is grounded in real vulnerabilities observed in MCP ser
 ```bash
 git clone https://github.com/ak4hit/mcp-hardening-benchmark.git
 cd mcp-hardening-benchmark
+python3 -m venv venv
+source venv/bin/activate
 pip install .
 ```
 
@@ -29,49 +31,27 @@ pip install .
 
 ## Usage
 
-### Interactive mode (recommended for first use)
+### Interactive mode (recommended)
 ```bash
 mcp-audit
 ```
 Prompts for all options with sensible defaults.
 
 ### Non-interactive / CI mode
+To see all command-line options and flags:
 ```bash
-mcp-audit --target http://localhost:5000 --api-key <key>
+mcp-audit --help
 ```
 
-### All flags
+### ⚠️ Security Notice — Always Prefer Interactive Mode
+
+**Always run `mcp-audit` without flags when possible:**
+
 ```bash
-# Bearer token auth
-mcp-audit --target http://localhost:5000 --api-key <token> --auth-type bearer
-
-# Hardened profile (all 28 checks)
-mcp-audit --target http://localhost:5000 --api-key <key> --profile level2
-
-# JSON report
-mcp-audit --target http://localhost:5000 --api-key <key> --json --output report.json
-
-# HTML report (self-contained, offline-safe)
-mcp-audit --target http://localhost:5000 --api-key <key> --html --output report.html
-
-# SARIF report (GitHub Code Scanning)
-mcp-audit --target http://localhost:5000 --api-key <key> --sarif --output results.sarif
-
-# Single category
-mcp-audit --target http://localhost:5000 --api-key <key> --category tools
-
-# Passive mode (no /tools/call probes — read-only)
-mcp-audit --target http://localhost:5000 --api-key <key> --passive
-
-# CI gate — exit 1 if score below threshold
-mcp-audit --target http://localhost:5000 --api-key <key> --min-score 80
-
-# Verbose — show remediation for all checks
-mcp-audit --target http://localhost:5000 --api-key <key> --verbose
-
-# List all checks and exit
-mcp-audit --list-checks
+mcp-audit
 ```
+
+The interactive mode masks your API key input and keeps credentials out of your shell history and process list.
 
 ---
 
@@ -148,7 +128,7 @@ mcp-audit --list-checks
 ## Sample Output
 
 ```text
-+-------------------- MCP Server Hardening Benchmark v1.0 --------------------+
++---------------------- MCP Server Hardening Benchmark -----------------------+
 |  Target : http://127.0.0.1:15000                                            |
 |  Profile: Level 1 (Basic)                                                   |
 +-----------------------------------------------------------------------------+
@@ -244,7 +224,7 @@ Profile : Level 1 - [FAIL] FAIL
 
 The human-readable benchmark checklist is available as a standalone document:
 
-**[benchmark/MCP-Benchmark-v1.0.md](benchmark/MCP-Benchmark-v1.0.md)**
+**[benchmark/MCP-Benchmark.md](benchmark/MCP-Benchmark.md)**
 
 ---
 

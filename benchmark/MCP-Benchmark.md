@@ -1,4 +1,4 @@
-# MCP Server Hardening Benchmark v1.0
+# MCP Server Hardening Benchmark
 
 > **CIS-Style Security Checklist for MCP Server Deployments**
 > Author: ak4hit | github.com/ak4hit/mcp-hardening-benchmark
@@ -95,4 +95,4 @@ Each item maps to a specific vulnerability class observed in real MCP deployment
 
 ---
 
-*MCP Server Hardening Benchmark v1.0 · ak4hit · MIT License*
+*MCP Server Hardening Benchmark · ak4hit · MIT License*
