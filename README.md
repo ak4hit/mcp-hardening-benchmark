@@ -1,5 +1,18 @@
 # mcp-hardening-benchmark
 
+![Python](https://img.shields.io/badge/PYTHON-3.10+-3776AB?style=flat-square&logo=python&logoColor=white&labelColor=1a1a2e)
+![Rich](https://img.shields.io/badge/RICH-13.7-41b883?style=flat-square&labelColor=1a1a2e)
+![Click](https://img.shields.io/badge/CLICK-8.1-e05d44?style=flat-square&labelColor=1a1a2e)
+![Requests](https://img.shields.io/badge/REQUESTS-2.32-6c757d?style=flat-square&labelColor=1a1a2e)
+![Flask](https://img.shields.io/badge/FLASK-3.0-000000?style=flat-square&logo=flask&logoColor=white&labelColor=1a1a2e)
+![pytest](https://img.shields.io/badge/PYTEST-8.3-0a9edc?style=flat-square&logo=pytest&logoColor=white&labelColor=1a1a2e)
+![Checks](https://img.shields.io/badge/CHECKS-28-blueviolet?style=flat-square&labelColor=1a1a2e)
+![MITRE](https://img.shields.io/badge/MITRE-ATT%26CK%20MAPPED-e05d44?style=flat-square&labelColor=1a1a2e)
+![Categories](https://img.shields.io/badge/CATEGORIES-7-2ea44f?style=flat-square&labelColor=1a1a2e)
+![MCP](https://img.shields.io/badge/MCP-PROTOCOL-ff6b35?style=flat-square&labelColor=1a1a2e)
+![CVE](https://img.shields.io/badge/CVE-AWARE-critical?style=flat-square&labelColor=1a1a2e)
+![License](https://img.shields.io/badge/LICENSE-MIT-yellow?style=flat-square&labelColor=1a1a2e)
+
 > **CIS-Style Security Audit Tool for MCP Server Deployments**
 
 A CLI tool that connects to a live MCP server, probes it across 7 security categories, scores it, and outputs a detailed report — pass/fail per check, overall score, and remediation advice. Every check maps directly to a vulnerability class seen in real MCP deployments.
