@@ -50,6 +50,8 @@ mcp-audit
 ```
 Prompts for all options with sensible defaults.
 
+> **⏱️ Note:** The full audit typically takes **3–4 minutes** to complete. This is expected — the tool performs deep probing across all check categories before producing the final report.
+
 ### Non-interactive / CI mode
 To see all command-line options and flags:
 ```bash
